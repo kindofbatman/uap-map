@@ -4,10 +4,10 @@
   <title>Interactive UAP Sightings Map</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    #map { 
-      height: 600px; 
-      width: 100%; 
-      border: 1px solid #ccc; 
+    #map {
+      height: 600px;
+      width: 100%;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
@@ -15,10 +15,12 @@
   <!-- Map Container -->
   <div id="map"></div>
 
-  <!-- Include Leaflet.js -->
+  <!-- Include Leaflet.js and PapaParse -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
   <script>
-    // Initialize the map and set center to continental USA
+    // Initialize the map
     var map = L.map('map').setView([39.8283, -98.5795], 4);
 
     // Add OpenStreetMap tiles
@@ -27,35 +29,40 @@
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    // Fetch and load the GeoJSON data
-    fetch("./UAP_Drone_Sightings.geojson")
-      .then(response => response.json())    // Convert to JSON
-      .then(data => {
-        // Add the GeoJSON data to the map
-        L.geoJSON(data, {
-          onEachFeature: function (feature, layer) {
-            layer.bindPopup(
-              "<strong>Location:</strong> " + feature.properties.Location + "<br>" +
-              "<strong>Reports Count:</strong> " + feature.properties.Reports_Count + "<br>" +
-              "<strong>Date:</strong> " + feature.properties.Date + "<br>" +
-              "<strong>Info:</strong> " + feature.properties.Info + "<br>" +
-              "<strong>Source:</strong> " + feature.properties.Source
-            );
-          },
-          pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, {
-              radius: feature.properties.Reports_Count / 5, // Scale marker size
-              fillColor: "red",
-              color: "darkred",
-              weight: 1,
-              opacity: 1,
-              fillOpacity: 0.8
-            });
-          }
-        }).addTo(map);
-      })
-      .catch(error => console.error("Error loading GeoJSON data:", error));
+    // Function to load CSV data dynamically
+    function loadCSVData(url) {
+      Papa.parse(url, {
+        download: true,
+        header: true,
+        complete: function (results) {
+          results.data.forEach(function (row) {
+            if (row.Latitude && row.Longitude) {
+              var popupContent = `
+                <strong>Location:</strong> ${row.Location}<br>
+                <strong>Reports Count:</strong> ${row['Reports Count']}<br>
+                <strong>Date:</strong> ${row.Date}<br>
+                <strong>Info:</strong> ${row.Info}<br>
+                <strong>Source:</strong> ${row.Source}
+              `;
+              L.marker([parseFloat(row.Latitude), parseFloat(row.Longitude)])
+                .bindPopup(popupContent)
+                .addTo(map);
+            }
+          });
+        },
+        error: function (err) {
+          console.error("Error loading CSV:", err.message);
+        }
+      });
+    }
+
+    // Use your raw GitHub link here
+    var dataURL = "https://raw.githubusercontent.com/kindofbatman/uap-map/main/Updated_UAP_Table.csv";
+
+    // Load and display data on the map
+    loadCSVData(dataURL);
   </script>
 </body>
 </html>
+
 
