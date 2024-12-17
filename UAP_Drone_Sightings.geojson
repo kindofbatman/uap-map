@@ -1,0 +1,89 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-74.484, 40.796]
+      },
+      "properties": {
+        "Location": "Morris County, NJ",
+        "Reports_Count": 50,
+        "Date": "November 18, 2024",
+        "Info": "Large drones, flashing lights, hovering",
+        "Source": "Newsweek, NJ News12"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-117.1484, 33.4936]
+      },
+      "properties": {
+        "Location": "Temecula, CA",
+        "Reports_Count": 10,
+        "Date": "December 10, 2024",
+        "Info": "Silent triangular craft with lights",
+        "Source": "Local news reports"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-118.1937, 33.7701]
+      },
+      "properties": {
+        "Location": "Long Beach, CA",
+        "Reports_Count": 10,
+        "Date": "December 13, 2024",
+        "Info": "Brightly lit drones hovering near Long Beach; nighttime activity",
+        "Source": "FOX 11 Los Angeles"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.1566, 45.0061]
+      },
+      "properties": {
+        "Location": "Roseville, MN",
+        "Reports_Count": 6,
+        "Date": "December 11, 2024",
+        "Info": "Six bright orbs recorded hovering in Roseville sky",
+        "Source": "CBS Minnesota"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-93.2106, 45.1458]
+      },
+      "properties": {
+        "Location": "Blaine Airport, MN",
+        "Reports_Count": 7,
+        "Date": "December 13, 2024",
+        "Info": "Car-sized drone followed vehicle near Blaine Airport",
+        "Source": "CBS Minnesota"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-78.8867, 33.6891]
+      },
+      "properties": {
+        "Location": "Myrtle Beach, SC",
+        "Reports_Count": 9,
+        "Date": "December 12, 2024",
+        "Info": "Persistent hovering drones with blinking lights",
+        "Source": "WPDE ABC 15 News"
+      }
+    }
+  ]
+}
