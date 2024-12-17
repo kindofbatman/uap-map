@@ -1,0 +1,62 @@
+<!-- wp:html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive UAP Sightings Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { 
+      height: 600px; 
+      width: 100%; 
+      border: 1px solid #ccc; 
+    }
+  </style>
+</head>
+<body>
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Include Leaflet.js -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map and set center to continental USA
+    var map = L.map('map').setView([39.8283, -98.5795], 4);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Fetch and load GeoJSON data from the direct link
+    fetch("https://drive.google.com/uc?export=download&id=1JXE02Tkrp0YgNgOLwKeZY2dU2a2ZIjF9")
+      .then(response => response.json())    // Convert to JSON
+      .then(data => {
+        // Add the GeoJSON data to the map
+        L.geoJSON(data, {
+          onEachFeature: function (feature, layer) {
+            layer.bindPopup(
+              "<strong>Location:</strong> " + feature.properties.Location + "<br>" +
+              "<strong>Reports Count:</strong> " + feature.properties.Reports_Count + "<br>" +
+              "<strong>Date:</strong> " + feature.properties.Date + "<br>" +
+              "<strong>Info:</strong> " + feature.properties.Info + "<br>" +
+              "<strong>Source:</strong> " + feature.properties.Source
+            );
+          },
+          pointToLayer: function (feature, latlng) {
+            return L.circleMarker(latlng, {
+              radius: feature.properties.Reports_Count / 5, // Scale size
+              fillColor: "red",
+              color: "darkred",
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 0.8
+            });
+          }
+        }).addTo(map);
+      })
+      .catch(error => console.error("Error loading GeoJSON data:", error));
+  </script>
+</body>
+</html>
+<!-- /wp:html -->
